@@ -1,0 +1,14 @@
+0a1,4
+> ==16172== Conditional jump or move depends on uninitialised value(s)
+> ==16172==    at 0x400E25: hay_solapamiento(bool*, intervalo_t*, unsigned int) (in /home/smartinez/Documentos/ProyectoP3/tarea/principal)
+> ==16172==    by 0x401211: main (in /home/smartinez/Documentos/ProyectoP3/tarea/principal)
+> ==16172== 
+5,9c9
+< 5>Volumen: 10
+< 6>Volumen: 50
+< 7>Volumen: 50
+< 8>Volumen: 40
+< 9>Fin.
+---
+> 5>
+\ No hay ningún carácter de nueva línea al final del fichero

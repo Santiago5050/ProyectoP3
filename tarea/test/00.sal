@@ -1,0 +1,9 @@
+==16172== Conditional jump or move depends on uninitialised value(s)
+==16172==    at 0x400E25: hay_solapamiento(bool*, intervalo_t*, unsigned int) (in /home/smartinez/Documentos/ProyectoP3/tarea/principal)
+==16172==    by 0x401211: main (in /home/smartinez/Documentos/ProyectoP3/tarea/principal)
+==16172== 
+1>Cantidad: 1
+2>Cantidad: 2
+3>Cantidad: 1
+4>Cantidad: 2
+5>
