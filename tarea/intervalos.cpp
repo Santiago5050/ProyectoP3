@@ -12,19 +12,12 @@ struct intervalo_indexado
 
 //Definiciones
 bool compatibles(intervalo_t i, intervalo_t j);
-void merge_intervalos(intervalo_indexado * intervalo, uint left, uint middle, uint right);
+void merge_intervalos(intervalo_indexado *intervalos, uint left, intervalo_indexado *arreglo_izq, uint izq_length, uint middle, uint right, intervalo_indexado *arreglo_der, uint der_length);
 void merge_sort_intervalos(intervalo_indexado *intervalos, uint left ,uint right);
 void imprimir(intervalo_indexado *arreglo_intervalos, uint n);
 uint max(uint a, uint b);
 
 //Implementaciones
-
-/* La funcion bool compatibles retorna true sii Los
-intervalos i y j son compatibles */
-bool compatibles(intervalo_t i, intervalo_t j)
-{
-  return ((i.fin <= j.inicio) || (j.fin <= i.inicio));
-}
 
 /*Imprime los intervalos del arreglo_intervalos con el
 formato {inicio_fin,inicio_fin,etc}*/
@@ -36,34 +29,15 @@ void imprimir(intervalo_indexado *arreglo_intervalos, uint n)
   printf("}\n");
 }
 
-/*realiza el merge entre los arreglos intervalos[left..middle]
-  y el arreglo intervalos[middle+1..right]*/
-void merge_intervalos(intervalo_indexado *intervalos, uint left, uint middle, uint right)
+/*realiza el merge entre los arreglos: arreglo_izq y arreglo_der
+  en el arreglo intervalos*/
+void merge_intervalos(intervalo_indexado *intervalos, uint left, intervalo_indexado *arreglo_izq, uint izq_length, uint middle, uint right, intervalo_indexado *arreglo_der, uint der_length)
 {
-    uint n1 = middle - left + 1;
-    uint n2 = right - middle;
-
-    //arreglos temporales
-    intervalo_indexado *arreglo_izq = new intervalo_indexado[n1];
-    intervalo_indexado *arreglo_der = new intervalo_indexado[n2];
-
-    //Inicializando los arreglos temporales
-    for (uint i = 0; i < n1; i++)
-    {
-      arreglo_izq[i].intervalo = intervalos[left + i].intervalo;
-      arreglo_izq[i].index = intervalos[left + i].index;
-    }
-    for(uint i = 0; i < n2; i++)
-    {
-      arreglo_der[i].intervalo = intervalos[middle + 1 + i].intervalo;
-      arreglo_der[i].index = intervalos[middle + 1 + i].index;
-    }
-
-    //Merge de los arreglos
     uint der = 0; //indice del intervalo derecho
     uint izq = 0; //indice del intervalo izquierdo
     uint i = left; //indice del arreglo solucion
-    while((izq < n1)&&( der < n2))
+    //Merge de los array en intervalos
+    while((izq < izq_length)&&( der < der_length))
     {
       if(arreglo_izq[izq].intervalo.fin <= arreglo_der[der].intervalo.fin)
       {
@@ -81,7 +55,7 @@ void merge_intervalos(intervalo_indexado *intervalos, uint left, uint middle, ui
       }
     }
     //Completo el arreglo izquierdo si no se termino de cargar
-    while(izq < n1)
+    while(izq < izq_length)
     {
       intervalos[i].intervalo = arreglo_izq[izq].intervalo;
       intervalos[i].index = arreglo_izq[izq].index;
@@ -89,15 +63,13 @@ void merge_intervalos(intervalo_indexado *intervalos, uint left, uint middle, ui
       izq++;
     }
     //Completo el arreglo derecho si no se termino de cargar
-    while(der < n2)
+    while(der < der_length)
     {
       intervalos[i].intervalo = arreglo_der[der].intervalo;
       intervalos[i].index = arreglo_der[der].index;
       i++;
       der++;
     }
-    delete[] arreglo_der;
-    delete[] arreglo_izq;
 }
 
 /* Ordena el arreglo de intervalos segun su
@@ -109,7 +81,31 @@ void merge_sort_intervalos(intervalo_indexado *intervalos, uint left ,uint right
     uint middle = floor((left + right)/2);
     merge_sort_intervalos(intervalos, left, middle);
     merge_sort_intervalos(intervalos, middle + 1, right);
-    merge_intervalos(intervalos, left, middle, right);
+
+    //Inicializacion array auxiliar de elementos izquierdo
+    uint izq_length = middle - left + 1;
+    intervalo_indexado *arreglo_izq = new intervalo_indexado[izq_length];
+    for (uint i = 0; i < izq_length; i++)
+    {
+      arreglo_izq[i].intervalo = intervalos[left + i].intervalo;
+      arreglo_izq[i].index = intervalos[left + i].index;
+    }
+
+    //Inicializacion array auxiliar de elementos derecho
+    uint der_length = right - middle;
+    intervalo_indexado *arreglo_der = new intervalo_indexado[der_length];
+    for(uint i = 0; i < der_length; i++)
+    {
+      arreglo_der[i].intervalo = intervalos[middle + 1 + i].intervalo;
+      arreglo_der[i].index = intervalos[middle + 1 + i].index;
+    }
+
+    //merge de los array auxiliares en la solucion
+    merge_intervalos(intervalos, left, arreglo_izq, izq_length, middle, right, arreglo_der, der_length);
+
+    //Eliminacion de los arreglos auxiliares
+    delete[] arreglo_der;
+    delete[] arreglo_izq;
   }
 }
 
