@@ -8,6 +8,7 @@ El objetivo de este proyecto es el modelado y posterior implementación de un pr
 
 #### Problema
 Se considera un conjunto de n pedidos {1, . . . , n}, de los cuales se conoce su tiempo de inicio, su tiempo de fin y su volumen. Dado un pedido i, se denota su tiempo de inicio como `inicio(i)`, su tiempo de fin como `fin(i)` y su volumen como `volumen(i)`. Se considera que dos pedidos i, j ∈ {1, . . . , n} son compatibles si y solo si no se superponen en el tiempo, es decir:
+
  ![Definicion compatibles en el tiempo](https://raw.githubusercontent.com/Santiago5050/ProyectoP3/master/imagenes_readme/001.png)
 
 #### Que se pide?
@@ -20,6 +21,3 @@ Se obtienen los siguientes archivos:
  - El archivo Makefile con reglas para la compilación y testing (ver sección 8.2 LetraTarea.pdf).
  - En el subdirectorio include el archivo de definición: intervalos.h.
  - En el subdirectorio test los casos de prueba para principal.cpp.
-
-
-
